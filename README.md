@@ -1,6 +1,6 @@
 # CSE5335-mxf6133
 ## CSE5335- Web Data Management
-### Project deployed on Heroku: https://cse5335-mxf6133.herokuapp.com/
+### Project deployed on Heroku: [State-of-the-art client-server web application] (https://cse5335-mxf6133.herokuapp.com/)
 
 The following refers to the approach of the project.
 

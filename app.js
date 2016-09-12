@@ -22,6 +22,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//https://www.npmjs.com/package/serve-favicon
+app.use(favicon(__dirname + '/public/favicon.ico'));
+
 app.use('/', routes);
 app.use('/users', users);
 

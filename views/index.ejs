@@ -17,9 +17,9 @@
         <input type="submit" ng-click="submit(code)" value="Submit" />
     </form>
     <!-- <pre>user = {{code | json}}</pre> -->
+    <h4>Data from <a href="http://www.geonames.org/export/web-services.html#findNearbyPostalCodes">GeoNames</a> Nearby Postal Codes using controller: AngularJS</h4>
+    <div class= "container"  ng-show='postalCodes.length > 0'>
 
-    <div class= "container" >
-        <h4>Data from <a href="http://www.geonames.org/export/web-services.html#findNearbyPostalCodes">GeoNames</a> Nearby Postal Codes using controller: AngularJS</h4>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -36,7 +36,7 @@
             </tr>
             </tbody>
         </table>
-    </div>
 
+    </div>
   </body>
 </html>

@@ -11,7 +11,7 @@ myApp.controller('AppCtrl', ['$scope', '$http',
         };
         
         function fetch(){
-            $http.get("http://api.geonames.org/findNearbyPostalCodesJSON?postalcode=76010&country=US&radius=10&maxRows=10&username=ferns.mark")
+            $http.get('./geonames.json')
                 .then(function(response) {
                     $scope.postalCodes = response.data.postalCodes;
                     console.log($scope.postalCodes);

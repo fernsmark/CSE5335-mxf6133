@@ -1,44 +1,69 @@
 <!DOCTYPE html>
-<html  ng-app="myApp" ng-controller="AppCtrl">
+<html ng-app="myApp" >
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
       <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+      <style>
+        #gmaps{
+            height: 450px;
+            width: 450px;
+            border: 2px solid red;
+
+        }
+      </style>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9grzxWEeWaSk-QGjkI9gHWC12-4Mt2no"
+              async defer></script>
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <p><%= description %></p>
 
-    <form novalidate class="simple-form">
-        <!-- <input type="number" placeholder="Enter Postal Code" onclick="select()" ng-model="code" /> -->
-        <input type="submit" ng-click="submit(code)" value="Submit" />
-    </form>
-    <!-- <pre>user = {{code | json}}</pre> -->
-    <h4>Data from <a href="http://www.geonames.org/export/web-services.html#findNearbyPostalCodes">GeoNames</a> Nearby Postal Codes using controller: AngularJS</h4>
-    <div class= "container"  ng-show='postalCodes.length > 0'>
+    <div ng-controller="AppCtrl">
+        <form novalidate class="simple-form">
+            <!-- <input type="number" placeholder="Enter Postal Code" onclick="select()" ng-model="code" /> -->
+            <input type="submit" ng-click="submit(code)" value="Submit" />
+        </form>
+        <!-- <pre>user = {{code | json}}</pre> -->
+        <h4>Data from <a href="http://www.geonames.org/export/web-services.html#findNearbyPostalCodes">GeoNames</a> Nearby Postal Codes using controller: AngularJS</h4>
+        <div class= "container"  ng-if='postalCodes.length > 0'>  <!-- do not use ng-show  -->
 
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Postal Code</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr data-ng-repeat="postalCode in postalCodes">
-                <td>{{postalCode.postalCode}}</td>
-                <td>{{postalCode.lat}}</td>
-                <td>{{postalCode.lng}}</td>
-            </tr>
-            </tbody>
-        </table>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Postal Code</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-repeat="postalCode in postalCodes">
+                    <td>{{postalCode.postalCode}}</td>
+                    <td>{{postalCode.lat}}</td>
+                    <td>{{postalCode.lng}}</td>
+                </tr>
+                </tbody>
+            </table>
 
+            <div> <!--ng-controller="MapCtrl">-->
+                The co-ordinates plotted on Google Maps
+                <div my-map=""></div>
+            </div>
+
+        </div>
     </div>
+
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script src="/controller/controller.js"></script>
+
+
   </body>
 </html>
+
+
+<!-- &callback=initMap
+-->

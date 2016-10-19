@@ -1,3 +1,7 @@
+/**
+ * Created by Mark on 9/11/2016.
+ * NodeJS reference: https://www.youtube.com/playlist?list=PL6gx4Cwl9DGBMdkKFn3HasZnnAqVjzHn_
+*/
 var express = require('express');
 var router = express.Router();
 var description= "Developed by Mark Ashley Fernandes.";
@@ -10,7 +14,7 @@ var nearbyPostalCodes= "http://api.geonames.org/findNearbyPostalCodesJSON?postal
 request(nearbyPostalCodes, function (error, response, body) {
     if (!error && response.statusCode == 200) {
 
-        // parse the json result, http://codesamplez.com/programming/using-json-in-node-js-javascript
+        // parse the json result, reference: http://codesamplez.com/programming/using-json-in-node-js-javascript
         result = JSON.stringify(body,null,2);
         result = JSON.parse(result);
         console.log(result);

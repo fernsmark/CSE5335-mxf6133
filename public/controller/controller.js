@@ -1,7 +1,9 @@
 /**
  * Created by Mark on 9/11/2016.
+ * AngularJS reference: https://www.youtube.com/watch?v=ofASsumsf7E&list=PLEDbaVSIL58MB78qU6_I_FZZgNe_Mcb5j
+ * Google Maps reference: http://www.marthijnvandenheuvel.com/2014/05/07/create-an-angularjs-google-maps-directive/
  */
-var myApp = angular.module('myApp', []);
+var myApp = angular.module('myApp',[]);
 myApp.controller('AppCtrl', ['$scope', '$http',
     function($scope, $http) {
         console.log("Hello World from controller");
@@ -23,13 +25,9 @@ myApp.controller('AppCtrl', ['$scope', '$http',
     }]);
 
 
-myApp.directive('myMap',['$http', function($http) {
+myApp.directive('myMap', function($http) {
     // directive link function
-    $http.get('./geonames.json')
-        .then(function(response) {
-            $scope.postalCodes = response.data.postalCodes;
-            console.log($scope.postalCodes);console.log("here");
-        });
+
     var link = function($scope, element, attrs) {
         var map, infoWindow;
         var markers = [];
@@ -83,37 +81,6 @@ myApp.directive('myMap',['$http', function($http) {
             var data = $scope.postalCodes[i];
             setMarker(map, new google.maps.LatLng(data.lat, data.lng), data.postalCode, (data.lat+","+ data.lng));
         }
-
-            /*
-             var json = [
-             {
-             "title": "Stockholm",
-             "lat": 32.720368,
-             "lng": -97.082576,
-             "description": "Stockholm is the capital and the largest city of Sweden and constitutes the most populated urban area in Scandinavia with a population of 2.1 million in the metropolitan area (2010)"
-             },
-             {
-             "title": "Oslo",
-             "lat": 32.695425,
-             "lng": -97.087556,
-             "description": "Oslo is a municipality, and the capital and most populous city of Norway with a metropolitan population of 1,442,318 (as of 2010)."
-             },
-             {
-             "title": "Copenhagen",
-             "lat": 32.735687,
-             "lng": -97.1080656,
-             "description": "Copenhagen is the capital of Denmark and its most populous city, with a metropolitan population of 1,931,467 (as of 1 January 2012)."
-             }
-             ]
-
-             for (var i = 0, length = json.length; i < length; i++) {
-             var data = json[i];
-             setMarker(map, new google.maps.LatLng(data.lat, data.lng), 'Arlington', 'Some text');
-             }
-        setMarker(map, new google.maps.LatLng(32.720368, -97.082576), 'Point A', 'Text 1');
-        setMarker(map, new google.maps.LatLng(32.695425, -97.087556), 'Point B', 'Text 2');
-        setMarker(map, new google.maps.LatLng(32.735687, -97.1080656), 'Point C', 'Text 3');
-*/
     };
 
     return {
@@ -122,20 +89,69 @@ myApp.directive('myMap',['$http', function($http) {
         replace: true,
         link: link
     };
-}]);
+});
 
+myApp.controller('mainCtrl', function AppCtrl ($scope) {
+
+    //Preparing list for Chart
+    //var chartData = $scope.postalCodes;
+    var listData= [];
+    var listLabels= [];
+//        var listSeries= ["Distance from "];
+
+    for (var i = 1, length = $scope.postalCodes.length; i < length; i++) {
+        var bar = $scope.postalCodes[i];
+        listData.push(parseFloat(bar.distance));
+        listLabels.push(bar.postalCode);
+        //else
+        //   listSeries.push(bar.postalCode);
+    }
+
+    console.log(listData);
+    console.log(listLabels);
+
+    $scope.options = {width: 500, height: 300, 'bar': 'aaa'};
+    $scope.data = listData; //[1, 2, 3, 4];
+    $scope.hovered = function(d){
+        $scope.barValue = d;
+        $scope.$apply();
+    };
+    $scope.barValue = 'None';
+})
+myApp.directive('barChart', function(){
+        var chart = d3.custom.barChart();
+        return {
+            restrict: 'E',
+            replace: true,
+            template: '<div class="chart"></div>',
+            scope:{
+                height: '=height',
+                data: '=data',
+                hovered: '&hovered'
+            },
+            link: function(scope, element, attrs) {
+                var chartEl = d3.select(element[0]);
+                chart.on('customHover', function(d, i){
+                    scope.hovered({args:d});
+                });
+
+                scope.$watch('data', function (newVal, oldVal) {
+                    chartEl.datum(newVal).call(chart);
+                });
+
+                scope.$watch('height', function(d, i){
+                    chartEl.call(chart.height(scope.height));
+                })
+            }
+        }
+    })
+myApp.directive('chartForm', function(){
+        return {
+            restrict: 'E',
+            template:
+            '<br />Hover to view the distance. Distance: {{barValue}} miles </div>'
+        }
+    });
 /*
-myApp.controller('MapCtrl', ['$scope', '$http',
-    function($scope, $http) {
-        console.log("Hello World from Map controller");
-        $http.get('./geonames.json')
-            .then(function(response) {
-                $scope.postalCodes = response.data.postalCodes;
-                console.log($scope.postalCodes);
-            });
-    }]);
+
 */
-/*
-Misc:
- $http.get("//api.geonames.org/findNearbyPostalCodesJSON?postalcode="+$scope.getCode+"&country=US&radius=10&maxRows=10&username=ferns.mark")
- */

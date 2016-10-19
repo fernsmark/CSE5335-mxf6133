@@ -16,6 +16,30 @@
       </style>
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9grzxWEeWaSk-QGjkI9gHWC12-4Mt2no"
               async defer></script>
+
+      <style>
+          body {
+              font: 14px sans-serif;
+          }
+          .axis path, .axis line {
+              fill: none;
+              stroke: black;
+              shape-rendering: crispEdges;
+          }
+          .axis path{
+              fill: none;
+              stroke: none;
+          }
+          .bar {
+              fill: steelblue;
+          }
+      </style>
+
+      <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+      <script src="/controller/reusable_chart.js"></script>
+
+
+      <!--npm install angular-chart.js --save, npm install chart.js --save  -->
   </head>
   <body>
     <h1><%= title %></h1>
@@ -27,7 +51,7 @@
             <input type="submit" ng-click="submit(code)" value="Submit" />
         </form>
         <!-- <pre>user = {{code | json}}</pre> -->
-        <h4>Data from <a href="http://www.geonames.org/export/web-services.html#findNearbyPostalCodes">GeoNames</a> Nearby Postal Codes using controller: AngularJS</h4>
+        <h4>Data from <a target="_blank" href="http://www.geonames.org/export/web-services.html#findNearbyPostalCodes">GeoNames</a> Nearby Postal Codes.</h4>
         <div class= "container"  ng-if='postalCodes.length > 0'>  <!-- do not use ng-show  -->
 
             <table class="table table-striped">
@@ -36,6 +60,7 @@
                     <th>Postal Code</th>
                     <th>Latitude</th>
                     <th>Longitude</th>
+                    <th>Distance</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -43,13 +68,26 @@
                     <td>{{postalCode.postalCode}}</td>
                     <td>{{postalCode.lat}}</td>
                     <td>{{postalCode.lng}}</td>
+                    <td>{{postalCode.distance}}</td>
                 </tr>
                 </tbody>
             </table>
 
             <div> <!--ng-controller="MapCtrl">-->
-                The co-ordinates plotted on Google Maps
-                <div my-map=""></div>
+                <table>
+                    <tr>
+                <td>The above co-ordinates plotted on Google Maps<div my-map=""></div></td>
+
+                <td>Distance of nearby postal codes from the first location
+                <div ng-controller="mainCtrl">
+                    <chart-form></chart-form>
+                    <bar-chart height="options.height" data="data" hovered="hovered(args)"></bar-chart>
+                    <!--<bar-chart height="300" data="data" hovered="hovered(args)></bar-chart>-->
+                </div>
+                </td>
+                    </tr>
+                </table>
+
             </div>
 
         </div>
@@ -59,7 +97,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script src="/controller/controller.js"></script>
-
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
   </body>
 </html>

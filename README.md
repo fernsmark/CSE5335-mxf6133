@@ -23,7 +23,7 @@ e. What components OTHER than your client and server framework did you
 3.  bootstrapcdn: To load css from their servers for better visuals on webpage. [used in index.ejs]  
 4. Google API for google maps, resuable_charts.js for d3.js bar chart rendering.  	 
   
-f. What Ubuntu commands are required to deploy and run your server?
+f. What Ubuntu commands are required to deploy and run your server?  
 I have utilized TortiseSVN tool for subversioning and have linked my project folder to Github repo. TortiseSVN provides a GUI that enables committing code. Linked Github to Heroku as the deployment method and perform a manual deploy from heroku dashboard. Due to these reasons, I have not used any Unix commands to deploy and run on the server.
 Alernate deployment using Heroku CLI:
 $ heroku login  
